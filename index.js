@@ -214,18 +214,18 @@ Plotly.prototype.getImage = function (figure, opts, callback) {
         height: opts.height || 500
     });
 
+    const credentials = Buffer.from(`${self.username}:${self.apiKey}`).toString('base64')
+
     var headers = {
-        'plotly-username': self.username,
-        'plotly-apikey': self.apiKey,
-        'plotly-version': self.version,
-        'plotly-platform': self.platform,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${credentials}`,
+        'Plotly-Client-Platform': 'Python 3 0.3.2',
+        'Content-Type': 'application/json',
         'Content-Length': payload.length
     };
 
     var options = {
-        hostname: self.host,
-        path : '/apigenimage/',
+        hostname: 'api.plotly.com',
+        path : '/v2/images',
         port: self.port,
         headers: headers,
         method: 'POST',
